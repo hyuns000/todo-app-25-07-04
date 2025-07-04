@@ -1,22 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-//2강 HomeScreen 컴포넌트 생성
-const HomeScreen = () => {
+//2강 HomeScreen 컴포넌트 생성 //3강 Button 컴포넌트 추가
+const HomeScreen = ({navigation}) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text Style={{fontSize: 40, fontWeight: "bold"}}>메인 화면</Text>
+      <Button  
+        title="상세 페이지 이동"
+        onPress={() => navigation.navigate('Details')}>
+      </Button>
     </View>
   );
 }
-
-const DetailScreen = () => {
+//3강 push와 navigate 차이점
+const DetailScreen = ({navigation}) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text Style={{fontSize: 40, fontWeight: "bold"}}>상세보기 화면</Text>
+       <Button title="홈으로 이동" onPress={() => navigation.navigate('Home')}></Button>
+       <Button title="상세페이지로 이동" onPress={() => navigation.push('Details')}></Button>
     </View>
   );
 }
