@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; //5강
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useState } from "react";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 //2강 HomeScreen 컴포넌트 생성 //3강 Button 컴포넌트 추가
 const HomeScreen = ({}) => {
@@ -100,6 +100,76 @@ const StackActions = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
+  const tabConfig = [
+    {
+      name: 'Home',
+      title: '메인 홈',
+      component: HomeScreen,
+      focusedIcon: 'home-variant', //8강 아이콘 이름 변경
+      unfocusedIcon: 'home-variant-outline', //8강 아이콘 이름 변경
+      iconComponet: MaterialCommunityIcons
+    },
+     {
+      name: 'TodoSearch',
+      title: '할일 검색',
+      component: TodoSearchScreen,
+      focusedIcon: 'search-sharp', //8강 아이콘 이름 변경
+      unfocusedIcon: 'search-outline', //8강 아이콘 이름 변경
+      iconComponet: Ionicons
+    },
+     {
+      name: 'TodoWrite',
+      title: '할일 작성',
+      component: TodoWriteScreen,
+      focusedIcon: 'application-edit', //8강 아이콘 이름 변경
+      unfocusedIcon: 'application-edit-outline', //8강 아이콘 이름 변경
+      iconComponet: MaterialCommunityIcons
+    },
+     {
+      name: 'TodoList',
+      title: '할일 리스트',
+      component:  TodoListScreen,
+      focusedIcon: 'list-sharp', //8강 아이콘 이름 변경
+      unfocusedIcon: 'list-outline', //8강 아이콘 이름 변경
+      iconComponet: Ionicons
+    },
+     {
+      name: 'MyPage',
+      title: '내 정보',
+      component: MyPageScreen,
+      focusedIcon: 'person-circle-sharp', //8강 아이콘 이름 변경
+      unfocusedIcon: 'person-circle-outline', //8강 아이콘 이름 변경
+      iconComponet: Ionicons,
+
+    }
+  ]
+
+  const screenOptions = ({ route }) => ({
+    tabBarIcon: ({focused, color, size}) => {
+      const routeConfig = tabConfig.find((config) => tabConfig.name === route.name);
+
+      const iconName = focused ? routeConfig.focusedIcon : routeConfig.unfocusedIcon;
+      const IconComponent = routeConfig.iconComponet;
+
+      return <IconComponent name={iconName} size={size} color={color} />;
+    },
+    tabBarLableStyle: {
+        fontSize: 12,
+        paddingBottom: 10,
+        fontWeight: "bold",
+      },
+        tabBarIconStyle: {
+          fontSize: 10,
+          paddingBottom: 5,
+        },
+        tabBarStyle: {
+          height: 60,
+        },
+        tabBarInactiveTintColor: '#0163d2',
+        tabBarActiveTintColor: 'black'
+  })
+
   return (
    <NavigationContainer>
     {/* <StackActions.Navigator
@@ -128,62 +198,10 @@ export default function App() {
       <StackActions.Screen name="TodoWrite" component={TodoWriteScreen} />
       <StackActions.Screen name="Details" component={DetailScreen} />
     </StackActions.Navigator> */}
-    <Tab.Navigator screenOptions={({route }) => ( {tabBarLableStyle: {
-        fontSize: 12,
-        paddingBottom: 10,
-        fontWeight: "bold",
-      },
-        tabBarIconStyle: {
-          fontSize: 10,
-          paddingBottom: 5,
-        },
-        tabBarStyle: {
-          height: 60,
-        },
-        tabBarInactiveTintColor: '#0163d2',
-        tabBarActiveTintColor: 'black',
-        tabBarIcon: ({color, size}) => {
-          let iconName;
-
-          if (route.name === 'Home') {
-           iconName = "home-variant"; //5강 아이콘 이름 변경
-          } 
-           else if (route.name === 'TodoSearch') {
-            iconName = "text-search";
-          }
-          else if (route.name === 'TodoWrite') {
-            iconName = "note-edit";
-          }
-          else if (route.name === 'TodoList') {
-            iconName = "view-list"
-          }
-          else if (route.name === 'MyPage') {
-            iconName = "accont-circle";
-          }
-            return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
-
-        },
-      })}
+    <Tab.Navigator screenOptions={screenOptions}
 
     >
-      <Tab.Screen name="Home" component={HomeScreen} options={{title: "메인 홈",
-    }}
-       />
-      <Tab.Screen name="TodoSearch" component={TodoSearchScreen} 
-      options={{title: "할일 검색",
-      }}/>
-      <Tab.Screen name="TodoList" component={TodoListScreen} 
-      options={{title: "할일 리스트",
-
-      }}/>
-      <Tab.Screen name="MyPage" component={MyPageScreen} 
-      options={{title: "내 정보",
-
-      }}/>
-      <Tab.Screen name="TodoWrite" component={TodoWriteScreen} 
-      options={{title: "할일 작성",
-
-      }}/>
+      
     </Tab.Navigator>
    </NavigationContainer>
   );
