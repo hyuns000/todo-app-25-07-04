@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, TextInput, Pressable } from 'react-native';
-import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useState } from "react";
@@ -25,14 +24,15 @@ const HomeScreen = ({}) => {
 }
 //3강 push와 navigate 차이점
 const DetailScreen = ({route, navigation}) => {
-  const { todo } = route.params;//4강 글을 작성시  param으로 전달된 값을 받는다.
+  const todo = route.params?.todo;//4강 글을 작성시  param으로 전달된 값을 받는다.
 
-  console.log(todo);
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text style={{fontSize: 40, fontWeight: "bold"}}>상세보기 화면</Text>
-      <Text style={{fontSize: 40, fontWeight: "bold"}}>작성 내용 : {todo}</Text>
+      <Text style={{fontSize: 40, fontWeight: "bold"}}>
+        작성 내용 : {todo}
+        </Text>
        <Button title="홈으로 이동" onPress={() => navigation.navigate('Home')}></Button>
        <Button title="상세페이지로 이동" onPress={() => navigation.push('Details')}></Button>
     </View>
@@ -68,8 +68,27 @@ const StackActions = createNativeStackNavigator();
 export default function App() {
   return (
    <NavigationContainer>
-    <StackActions.Navigator initialRouteName='Home'>
-      <StackActions.Screen name="Home" component={HomeScreen} />
+    <StackActions.Navigator initialRouteName='Home' screenOptions={{
+      headerStyle: {
+        backgroundColor: "#f4511e",
+      },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        }}>
+      <StackActions.Screen
+       name="Home" 
+       component={HomeScreen} 
+       options={{
+        title: "메인 홈", 
+        headerRight: () => (
+          <Pressable onPress={() => alert("클릭됨!!")}>
+            <Text style={{ color: "#fff", fontWeight: "bold"}}>Menu</Text>
+          </Pressable>
+        )
+    }}
+      /> 
       <StackActions.Screen name="TodoWrite" component={TodoWriteScreen} />
       <StackActions.Screen name="Details" component={DetailScreen} />
     </StackActions.Navigator>
