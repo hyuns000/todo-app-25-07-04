@@ -11,35 +11,64 @@ const HomeScreen = ({}) => {
   const navigation = useNavigation();//3강 useNavigation, 복잡할 때 유연하게 사용
   //복잡한 구조인 경우에만 필요하다.
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
       <Text style={{fontSize: 40, fontWeight: "bold"}}>메인 화면</Text>
       <Button  
-        title="상세 페이지 이동"
-        onPress={() => navigation.navigate('Details')}>
+        title="할 일 리스트 이동"
+        onPress={() => navigation.navigate("TodoList")}>
       </Button>
       <Button  
         title="할 일 작성"
-        onPress={() => navigation.navigate('TodoWrite')}>
+        onPress={() => navigation.navigate("TodoWrite")}>
       </Button>
     </View>
   );
 }
-//3강 push와 navigate 차이점
-const DetailScreen = ({route, navigation}) => {
-  const todo = route.params?.todo;//4강 글을 작성시  param으로 전달된 값을 받는다.
 
-
-  return (
+const TodoSearchScreen = () => {
+   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text style={{fontSize: 40, fontWeight: "bold"}}>상세보기 화면</Text>
-      <Text style={{fontSize: 40, fontWeight: "bold"}}>
-        작성 내용 : {todo}
-        </Text>
-       <Button title="홈으로 이동" onPress={() => navigation.navigate('Home')}></Button>
-       <Button title="상세페이지로 이동" onPress={() => navigation.push('Details')}></Button>
+      <Text style={{fontSize: 40, fontWeight: "bold"}}>할일 검색</Text>
     </View>
   );
 }
+
+const TodoListScreen = () => {
+   return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text style={{fontSize: 40, fontWeight: "bold"}}>할일 리스트</Text>
+    </View>
+  );
+}
+
+const MyPageScreen = () => {
+   return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text style={{fontSize: 40, fontWeight: "bold"}}>내 정보</Text>
+    </View>
+  );
+}
+
+
+
+
+
+//3강 push와 navigate 차이점
+// const DetailScreen = ({route, navigation}) => {
+//   const todo = route.params?.todo;//4강 글을 작성시  param으로 전달된 값을 받는다.
+
+
+//   return (
+//     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+//       <Text style={{fontSize: 40, fontWeight: "bold"}}>상세보기 화면</Text>
+//       <Text style={{fontSize: 40, fontWeight: "bold"}}>
+//         작성 내용 : {todo}
+//         </Text>
+//        <Button title="홈으로 이동" onPress={() => navigation.navigate('Home')}></Button>
+//        <Button title="상세페이지로 이동" onPress={() => navigation.push('Details')}></Button>
+//     </View>
+//   );
+// }
 
 //4강
 const TodoWriteScreen = ({navigation}) => {
@@ -63,6 +92,8 @@ const TodoWriteScreen = ({navigation}) => {
 </Pressable></>
   );
 }
+
+
 
 //2강 상단좌측에 HOME
 const StackActions = createNativeStackNavigator();
@@ -97,8 +128,7 @@ export default function App() {
       <StackActions.Screen name="TodoWrite" component={TodoWriteScreen} />
       <StackActions.Screen name="Details" component={DetailScreen} />
     </StackActions.Navigator> */}
-    <Tab.Navigator screenOptions={{
-      tabBarLableStyle: {
+    <Tab.Navigator screenOptions={({route }) => ( {tabBarLableStyle: {
         fontSize: 12,
         paddingBottom: 10,
         fontWeight: "bold",
@@ -112,22 +142,48 @@ export default function App() {
         },
         tabBarInactiveTintColor: '#0163d2',
         tabBarActiveTintColor: 'black',
+        tabBarIcon: ({color, size}) => {
+          let iconName;
 
-        headerRight: () => (
-          <Pressable onPress={() => alert("클릭됨!!")}>
-            <Text style={{ color: "#fff", fontWeight: "bold"}}>Menu</Text>
-          </Pressable>
-        )
-    }}>
-      <Tab.Screen name="Home" component={HomeScreen} options={{title: "메인 홈", tabBarIcon: (focused) => (
-       <MaterialCommunityIcons name="home-variant" size={30} color="black" />
-      )
+          if (route.name === 'Home') {
+           iconName = "home-variant"; //5강 아이콘 이름 변경
+          } 
+           else if (route.name === 'TodoSearch') {
+            iconName = "text-search";
+          }
+          else if (route.name === 'TodoWrite') {
+            iconName = "note-edit";
+          }
+          else if (route.name === 'TodoList') {
+            iconName = "view-list"
+          }
+          else if (route.name === 'MyPage') {
+            iconName = "accont-circle";
+          }
+            return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+
+        },
+      })}
+
+    >
+      <Tab.Screen name="Home" component={HomeScreen} options={{title: "메인 홈",
     }}
        />
+      <Tab.Screen name="TodoSearch" component={TodoSearchScreen} 
+      options={{title: "할일 검색",
+      }}/>
+      <Tab.Screen name="TodoList" component={TodoListScreen} 
+      options={{title: "할일 리스트",
+
+      }}/>
+      <Tab.Screen name="MyPage" component={MyPageScreen} 
+      options={{title: "내 정보",
+
+      }}/>
       <Tab.Screen name="TodoWrite" component={TodoWriteScreen} 
-      options={{title: "할일 작성", tabBarIcon: (focused) => (
-       <MaterialCommunityIcons name="square-edit-outline" size={30} color="black" />
-      )}}/>
+      options={{title: "할일 작성",
+
+      }}/>
     </Tab.Navigator>
    </NavigationContainer>
   );
