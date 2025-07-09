@@ -2,21 +2,40 @@ import { StyleSheet} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; //5강
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { dateToStr } from './utils/util';
+
+
+const useTodosState = () => {
+  const [todos, setTodos] = useState([]); 
+  const lastTodoIdRef = React.useRef(0);
+
+  const addTodo = (newContent) => {
+    const id = ++lastTodoIdRef.current; 
+    const newTodo = {
+      id,
+      content: newContent,
+      regDate: dateToStr(new Date()),
+    }
+    const newTodos = [...todos, newTodo];
+    setTodos(newTodos);
+  }
+  return {todos, addTodo};
+};
+
 
 import tabConfig from './configs/tabConfig';
 
-import HomeScreen from './screens/HomeScreen'; //2강
-import TodoWriteScreen from './screens/TodoWriteScreen'; //4강
-import TodoListScreen from './screens/TodoListScreen'; //5강
-import TodoSearchScreen from './screens/TodoSearchScreen'; //5강
-import MyPageScreen from './screens/MyPageScreen'; //5강
+
 
 //2강 상단좌측에 HOME
 const StackActions = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
+  const todosState = useTodosState(); 
+  console.log(todosState);
 
   const screenOptions = ({ route }) => ({
     tabBarIcon: ({focused, color, size}) => {
@@ -97,6 +116,7 @@ export default function App() {
         name={routeConfig.name} 
         component={routeConfig.component} 
         options={{ title: routeConfig.title }} 
+        initialParams={{ todosState }} // 11강
       />
     ))}
     </Tab.Navigator>

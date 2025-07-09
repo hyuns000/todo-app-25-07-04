@@ -1,31 +1,15 @@
 import { Text, View, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
 import React, { useState, useRef } from "react";
-import { dateToStr } from '../utils/util'; // utils 폴더에서 dateToStr 함수 가져오기
 
 
-const useTodoState = () => {
-  const [todos, setTodos] = useState([]); 
-  const lastTodoIdRef = React.useRef(0);
-
-  const addTodo = (newContent) => {
-    const id = ++lastTodoIdRef.current; 
-    const newTodo = {
-      id,
-      content: newContent,
-      regDate: dateToStr(new Date()),
-    }
-    const newTodos = [...todos, newTodo];
-    setTodos(newTodos);
-  }
-  return {addTodo};
-}
-
-const TodoWriteScreen = ({ navigation }) => {
+const TodoWriteScreen = ({ navigation, route }) => {
   const [todo, setTodo] = useState('');
 
-  const{addTodo} = useTodoState();
-  const headleAddTodo = () => {
+  const{addTodo} = route.params.todosState; // 13강
+  console.log(route.params.todosState); // 할일 추가 함수 확인
 
+
+  const headleAddTodo = () => {
     if(!todo.trim()) {
       Alert.alert("할 일을 입력해주세요.");
       return;
