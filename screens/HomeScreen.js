@@ -1,9 +1,8 @@
-import {  Text, View } from 'react-native';
-
+import {  Text, View, Button } from 'react-native';
+import React from "react";
 //2강 HomeScreen 컴포넌트 생성 //3강 Button 컴포넌트 추가
-export default HomeScreen = ({}) => {
-  const navigation = useNavigation();//3강 useNavigation, 복잡할 때 유연하게 사용
-  //복잡한 구조인 경우에만 필요하다.
+const HomeScreen = ({navigation}) => {
+  
   return (
     <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
       <Text style={{fontSize: 40, fontWeight: "bold"}}>메인 화면</Text>
@@ -18,3 +17,5 @@ export default HomeScreen = ({}) => {
     </View>
   );
 };
+
+export default HomeScreen;

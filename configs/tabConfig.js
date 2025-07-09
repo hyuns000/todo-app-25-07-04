@@ -13,7 +13,7 @@
       component: HomeScreen,
       focusedIcon: 'home-variant', //8강 아이콘 이름 변경
       unfocusedIcon: 'home-variant-outline', //8강 아이콘 이름 변경
-      iconComponet: MaterialCommunityIcons
+      iconComponent : MaterialCommunityIcons
     },
      {
       name: 'TodoSearch',
@@ -21,7 +21,7 @@
       component: TodoSearchScreen,
       focusedIcon: 'search-sharp', //8강 아이콘 이름 변경
       unfocusedIcon: 'search-outline', //8강 아이콘 이름 변경
-      iconComponet: Ionicons
+      iconComponent : Ionicons
     },
      {
       name: 'TodoWrite',
@@ -29,7 +29,7 @@
       component: TodoWriteScreen,
       focusedIcon: 'application-edit', //8강 아이콘 이름 변경
       unfocusedIcon: 'application-edit-outline', //8강 아이콘 이름 변경
-      iconComponet: MaterialCommunityIcons
+      iconComponent : MaterialCommunityIcons
     },
      {
       name: 'TodoList',
@@ -37,7 +37,7 @@
       component:  TodoListScreen,
       focusedIcon: 'list-sharp', //8강 아이콘 이름 변경
       unfocusedIcon: 'list-outline', //8강 아이콘 이름 변경
-      iconComponet: Ionicons
+      iconComponent : Ionicons
     },
      {
       name: 'MyPage',
@@ -45,7 +45,7 @@
       component: MyPageScreen,
       focusedIcon: 'person-circle-sharp', //8강 아이콘 이름 변경
       unfocusedIcon: 'person-circle-outline', //8강 아이콘 이름 변경
-      iconComponet: Ionicons,
+      iconComponent: Ionicons,
 
     }
  ];

@@ -6,26 +6,45 @@ import React, { useState } from "react";
 
 import tabConfig from './configs/tabConfig';
 
+import HomeScreen from './screens/HomeScreen'; //2강
+import TodoWriteScreen from './screens/TodoWriteScreen'; //4강
+import TodoListScreen from './screens/TodoListScreen'; //5강
+import TodoSearchScreen from './screens/TodoSearchScreen'; //5강
+import MyPageScreen from './screens/MyPageScreen'; //5강
+
 //2강 상단좌측에 HOME
 const StackActions = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
 
-  const tabConfig = [
-   
-  ]
-
   const screenOptions = ({ route }) => ({
     tabBarIcon: ({focused, color, size}) => {
-      const routeConfig = tabConfig.find((config) => tabConfig.name === route.name);
+      const routeConfig = tabConfig.find((config) => config.name === route.name);
 
       const iconName = focused ? routeConfig.focusedIcon : routeConfig.unfocusedIcon;
-      const IconComponent = routeConfig.iconComponet;
+      const IconComponent = routeConfig.iconComponent;
 
       return <IconComponent name={iconName} size={size} color={color} />;
     },
-    tabBarLableStyle: {
+
+    hederTittleAlign: "center",//11강
+    hederTittleStyle: {
+      fontSize: 23,
+      fontWeight: "bold",
+
+    },
+    headerStyle: {
+      //Aandroid
+      elevation: 10,
+      //IOS
+      shadowColor: "#000",
+      shadowOpacity: 0.3,
+      shadowOffset: { width: 0, height: 4 },
+      shadowRadius: 4, 
+
+    },
+    tabBarLabelStyle: {
         fontSize: 12,
         paddingBottom: 10,
         fontWeight: "bold",
@@ -40,6 +59,7 @@ export default function App() {
         tabBarInactiveTintColor: '#0163d2',
         tabBarActiveTintColor: 'black'
   })
+  
 
   return (
    <NavigationContainer>
@@ -69,6 +89,7 @@ export default function App() {
       <StackActions.Screen name="TodoWrite" component={TodoWriteScreen} />
       <StackActions.Screen name="Details" component={DetailScreen} />
     </StackActions.Navigator> */}
+
     <Tab.Navigator screenOptions={screenOptions}>
     {tabConfig.map((routeConfig) => (
       <Tab.Screen 
@@ -86,7 +107,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundcolor: '#fff',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
