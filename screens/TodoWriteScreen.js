@@ -1,11 +1,12 @@
 import { Text, View, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
 import React, { useState, useRef } from "react";
+import { TodosContext } from '../components/TodosPrvider'; // 16강
 
 
-const TodoWriteScreen = ({ navigation, route }) => {
-  const [todo, setTodo] = useState('');
+const TodoWriteScreen = ({ navigation }) => {
+  const [todo, setTodo] = useState(" ");
+  const{addTodo} = useContext(TodosContext);
 
-  const{addTodo} = route.params.todosState; // 13강
   console.log(route.params.todosState); // 할일 추가 함수 확인
 
 

@@ -1,9 +1,9 @@
 import {  Text, View, StyleSheet } from 'react-native';
-import React from "react";
-
+import React, {useContext} from "react";
+import { TodosContext } from '../components/TodosPrvider'; // 16강
 
 const TodoListScreen = ({route}) => {
-const { todos } = route.params?.todosState ||  {todos:  []} ; // 13강
+const { todos } = React.useContext(TodosContext); // 16강
 
 console.log(todos); // 할일 리스트를 콘솔에 출력
   
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     width: "90%",
     padding: 10,
     borderRadius: 10, 
+    marginTop: 5,
     
   },
 });

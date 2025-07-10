@@ -3,27 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; //5강
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useState, useRef } from "react";
-import { dateToStr } from './utils/util';
-
-
-const useTodosState = () => {
-  const [todos, setTodos] = useState([]); 
-  const lastTodoIdRef = React.useRef(0);
-
-  const addTodo = (newContent) => {
-    const id = ++lastTodoIdRef.current; 
-    const newTodo = {
-      id,
-      content: newContent,
-      regDate: dateToStr(new Date()),
-    }
-    const newTodos = [...todos, newTodo];
-    setTodos(newTodos);
-  }
-  return {todos, addTodo};
-};
-
-
 import tabConfig from './configs/tabConfig';
 
 
@@ -80,35 +59,9 @@ export default function App() {
   })
   
 
-  return (
-   <NavigationContainer>
-    {/* <StackActions.Navigator
-     initialRouteName='Home' 
-     screenOptions={{
-      headerStyle: {
-        backgroundColor: "#f4511e",
-      },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        }}>
-      <StackActions.Screen
-       name="Home" 
-       component={HomeScreen} 
-       options={{
-        title: "메인 홈", 
-        headerRight: () => (
-          <Pressable onPress={() => alert("클릭됨!!")}>
-            <Text style={{ color: "#fff", fontWeight: "bold"}}>Menu</Text>
-          </Pressable>
-        )
-    }}
-      /> 
-      <StackActions.Screen name="TodoWrite" component={TodoWriteScreen} />
-      <StackActions.Screen name="Details" component={DetailScreen} />
-    </StackActions.Navigator> */}
-
+  return ( 
+  <TodosPrvider>
+     <NavigationContainer>
     <Tab.Navigator screenOptions={screenOptions}>
     {tabConfig.map((routeConfig) => (
       <Tab.Screen 
@@ -116,11 +69,11 @@ export default function App() {
         name={routeConfig.name} 
         component={routeConfig.component} 
         options={{ title: routeConfig.title }} 
-        initialParams={{ todosState }} // 11강
       />
     ))}
     </Tab.Navigator>
    </NavigationContainer>
+  </TodosPrvider>
   );
 }
 
