@@ -1,11 +1,11 @@
 import { dateToStr } from "../utils/util"; // 16강
-import React, { useState, useRef, createContext } from "react";
+import React, { useState, useRef, createContext, useContext } from "react";
 
 
 const TodosContext = createContext(); // 16강
 
 
-const TodosPrvider = ({children}) => {
+const TodosProvider = ({children}) => {
   const [todos, setTodos] = useState([]); 
   const lastTodoIdRef = React.useRef(0);
 
@@ -25,6 +25,9 @@ const TodosPrvider = ({children}) => {
     </TodosContext.Provider>
   );
 };
-
-
-export default TodosContext;
+export const useTodosState = () => {
+  const context = useContext(TodosContext);
+  if (!context) throw new Error("useTodosState must be used within a TodosProvider");
+  return context;
+};
+export default TodosProvider;

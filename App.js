@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; //5강
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useState, useRef } from "react";
 import tabConfig from './configs/tabConfig';
+import TodosProvider, { useTodosState } from './components/TodosProvider';
 
 
 
@@ -13,7 +14,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
 
-  const todosState = useTodosState(); 
+
 
 
   const screenOptions = ({ route }) => ({
@@ -60,7 +61,7 @@ export default function App() {
   
 
   return ( 
-  <TodosPrvider>
+  <TodosProvider>
      <NavigationContainer>
     <Tab.Navigator screenOptions={screenOptions}>
     {tabConfig.map((routeConfig) => (
@@ -73,7 +74,7 @@ export default function App() {
     ))}
     </Tab.Navigator>
    </NavigationContainer>
-  </TodosPrvider>
+  </TodosProvider>
   );
 }
 
