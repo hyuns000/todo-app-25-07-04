@@ -7,8 +7,8 @@ import { ListItem, Icon, Button } from "@rneui/themed"; //18강
 const TodoListScreen = ({route}) => {
 const { todos, removeTodo } = React.useContext(TodosContext); // 16강
 
-const headleRemoveTodo = (id, reset ) = {
-      Alert.alert("삭제 확인", "정말 삭제하시겠습니다까?", [
+const headleRemoveTodo = (id, reset ) => {
+      Alert.alert("삭제 확인", "정말 삭제하시겠습니까?", [
       {
         text: '삭제',
         onPress: () => {
@@ -24,7 +24,7 @@ const headleRemoveTodo = (id, reset ) = {
         onDismiss: () => reset(), //상자 바깥을 클릭한 경우 콜백함수 실행
 
       }
-  );
+  )
 };
 
 console.log(todos); // 할일 리스트를 콘솔에 출력
