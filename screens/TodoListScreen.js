@@ -1,11 +1,21 @@
-import {  Text, View, StyleSheet, Pressabl, Alert } from 'react-native';
-import React, {useContext} from "react";
+import {  Text, View, StyleSheet, Pressabl, Alert, Modal } from 'react-native';
+import React, {useState, useContext} from "react";
 import { TodosContext } from '../components/TodosProvider'; // 16강
 import { ListItem, Icon, Button } from "@rneui/themed"; //18강
 
 
 const TodoListScreen = ({route}) => {
-const { todos, removeTodo } = React.useContext(TodosContext); // 16강
+  const [ modalVisible, setModalVisible] = useState(false);
+  const { todos, removeTodo } = React.useContext(TodosContext); // 16강
+
+  const openModifyModal = (reset) => {
+    reset();
+    setModalVisible(true);
+  }
+  const closeModifyModal = () => {
+    setModalVisible(false);
+  }
+
 
 const headleRemoveTodo = (id, reset ) => {
       Alert.alert("삭제 확인", "정말 삭제하시겠습니까?", [
@@ -40,7 +50,7 @@ console.log(todos); // 할일 리스트를 콘솔에 출력
      leftContent={(reset) => (
       <Pressable 
         style={{...styles.pressbleBtn, backgroundColor: "blue"}}
-        onPress={() => reset()}
+        onPress={() => openModifyModal(reset)}
         >
           <Icon name="info" color="white" />
           <Text style ={styles.btnText}>수정</Text>
@@ -69,7 +79,21 @@ console.log(todos); // 할일 리스트를 콘솔에 출력
         <Text style={{fontSize: 20, fontWeight: "bold",}}>
           할 일이 없습니다.
         </Text>
-      )}
+      )} //21강 
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+        <Pressable onPress={closeModifyModal} style={styles.modalContainer}>
+          <View style={styles.modalBox}>
+
+          </View>
+          <Text style={{fontSize: 30}}>수정창</Text>
+        </Pressable>
+        </Modal>
     </View>
   );
 };
@@ -91,7 +115,20 @@ const styles = StyleSheet.create({
   btnText: {
     color: "#fff",
     fontWeight: "bold",
-  }
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalBox: {
+    width: "80%",
+    minHeight: 250,
+    borderWidth: 3,
+    borderRadius: 10,
+    backgroundColor: "#fff",
+  },
 });
 
 export default TodoListScreen;
