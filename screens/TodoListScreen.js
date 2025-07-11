@@ -1,11 +1,31 @@
-import {  Text, View, StyleSheet, Pressable } from 'react-native';
+import {  Text, View, StyleSheet, Pressabl, Alert } from 'react-native';
 import React, {useContext} from "react";
 import { TodosContext } from '../components/TodosProvider'; // 16강
 import { ListItem, Icon, Button } from "@rneui/themed"; //18강
 
 
 const TodoListScreen = ({route}) => {
-const { todos } = React.useContext(TodosContext); // 16강
+const { todos, removeTodo } = React.useContext(TodosContext); // 16강
+
+const headleRemoveTodo = (id, reset ) = {
+      Alert.alert("삭제 확인", "정말 삭제하시겠습니다까?", [
+      {
+        text: '삭제',
+        onPress: () => {
+          removeTodo(id);
+          reset();
+        },
+        style: "destructive",
+      },
+      {text: '취소', onPress: () => reset(), style: 'cancel',},
+    ],
+        {
+        cancelable: true, //경고창 상자 밖을 클릭하면 경고창 닫힘
+        onDismiss: () => reset(), //상자 바깥을 클릭한 경우 콜백함수 실행
+
+      }
+  );
+};
 
 console.log(todos); // 할일 리스트를 콘솔에 출력
   
@@ -29,7 +49,7 @@ console.log(todos); // 할일 리스트를 콘솔에 출력
        rightContent={(reset) => (
     <Pressable 
       style={{...styles.pressbleBtn, backgroundColor: "red"}}
-      onPress={() => reset()}
+      onPress={() => headleRemoveTodo(todo.id, reset)}
       >
         <Icon name="delete" color="white" />
           <Text style ={styles.btnText}>삭제</Text>
